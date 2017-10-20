@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-21 15:34+0000\n"
-"PO-Revision-Date: 2017-09-21 15:34+0000\n"
+"POT-Creation-Date: 2017-10-20 14:02+0000\n"
+"PO-Revision-Date: 2017-10-20 14:02+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 #. module: payment_tipiregie
 #: model:payment.acquirer,cancel_msg:payment_tipiregie.payment_acquirer_tipiregie
 msgid "<span><i>Cancel,</i> Your payment has been cancelled.</span>"
-msgstr "<span><i>Annulé,</i> votre paiement a été annulé.</span>"
+msgstr "<span><i>Annuler,</i> votre paiement a été annulé.</span>"
 
 #. module: payment_tipiregie
 #: model:payment.acquirer,done_msg:payment_tipiregie.payment_acquirer_tipiregie
@@ -28,7 +28,7 @@ msgstr "<span><i>Terminé,</i> votre paiement en ligne a été enregistré. Merc
 #. module: payment_tipiregie
 #: model:payment.acquirer,error_msg:payment_tipiregie.payment_acquirer_tipiregie
 msgid "<span><i>Error,</i> Please be aware that an error occurred during the transaction. The order has been confirmed but will not be paid. Do not hesitate to contact us if you have any questions on the status of your order.</span>"
-msgstr "<span><i>Erreur,</i> une erreur est survenue lors de la transaction. La commande n'a pas été confirmée et ne sera pas réglée. N'hésitez pas à nous contacter pour toute question sur le statut de la commande.</span>"
+msgstr "<span><i>Erreur,</i> une erreur est survenue lors de la transaction. La commande a été confirmée mais ne sera pas réglée. N'hésitez pas à nous contacter pour toute question sur le statut de la commande.</span>"
 
 #. module: payment_tipiregie
 #: model:payment.acquirer,pending_msg:payment_tipiregie.payment_acquirer_tipiregie
@@ -46,6 +46,24 @@ msgid "Form action URL"
 msgstr "URL de renvoi du formulaire"
 
 #. module: payment_tipiregie
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:226
+#, python-format
+msgid "It seems that the connection to the web service Tipi Régie is impossible.\n"
+"%s\n"
+"\n"
+"%s"
+msgstr "Il semblerait que la connection vers le web service Tipi Régie soit impossible.\n"
+"%s\n"
+"\n"
+"%s"
+
+#. module: payment_tipiregie
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:219
+#, python-format
+msgid "It would appear that the customer number entered is not valid or that the Tipi Régie contract is not properly configured."
+msgstr "Il semblerait que le numéro client n'est pas valide ou que le contrat Tipi Régie n'est pas correctement configuré."
+
+#. module: payment_tipiregie
 #: model:ir.model,name:payment_tipiregie.model_payment_acquirer
 msgid "Payment Acquirer"
 msgstr "Intermédiaire de Paiement"
@@ -53,10 +71,10 @@ msgstr "Intermédiaire de Paiement"
 #. module: payment_tipiregie
 #: model:ir.model,name:payment_tipiregie.model_payment_transaction
 msgid "Payment Transaction"
-msgstr "Transaction de paiement"
+msgstr "Transaction"
 
 #. module: payment_tipiregie
-#: code:addons/payment_tipiregie/models/inherited_payment_transaction.py:20
+#: code:addons/payment_tipiregie/models/inherited_payment_transaction.py:21
 #, python-format
 msgid "Tipi Regie: received data with missing reference (%s)"
 msgstr "Tipi Régie: données reçues sans référence (%s)"
@@ -65,6 +83,12 @@ msgstr "Tipi Régie: données reçues sans référence (%s)"
 #: model:payment.acquirer,name:payment_tipiregie.payment_acquirer_tipiregie
 msgid "Tipi Régie"
 msgstr "Tipi Régie"
+
+#. module: payment_tipiregie
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:223
+#, python-format
+msgid "Tipi server returned the following error: \"%s\""
+msgstr "Le serveur a retourné l'erreur suivante : \"%s\""
 
 #. module: payment_tipiregie
 #: model:payment.acquirer,pre_msg:payment_tipiregie.payment_acquirer_tipiregie

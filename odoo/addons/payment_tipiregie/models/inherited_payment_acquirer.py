@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.addons.payment_tipiregie.controllers.main import TipiRegieController
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
+import requests
+from requests.exceptions import ConnectionError
 from xml.etree import ElementTree
 import urlparse
 import uuid
-import requests
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -20,6 +21,18 @@ class TipiRegieAcquirer(models.Model):
 
     tipiregie_customer_number = fields.Char(string='Customer number', required_if_provider='tipiregie')
     tipiregie_form_action_url = fields.Char(string='Form action URL', required_if_provider='tipiregie')
+
+    @api.constrains('tipiregie_customer_number')
+    def _check_tipiregie_customer_number(self):
+        self.ensure_one()
+        if self.provider == 'tipiregie' and self.tipiregie_customer_number != 'dummy':
+            self._tipiregie_check_web_service()
+
+    @api.constrains('website_published')
+    def _check_website_published(self):
+        self.ensure_one()
+        if self.provider == 'tipiregie' and self.website_published:
+            self._tipiregie_check_web_service()
 
     @api.model
     def _get_soap_url(self):
@@ -115,9 +128,9 @@ class TipiRegieAcquirer(models.Model):
 
         namespaces = self._get_soap_namespaces()
         error_element = root.find('.//ns1:FonctionnelleErreur', namespaces) \
-            or root.find('.//ns1:TechDysfonctionnementErreur', namespaces) \
-            or root.find('.//ns1:TechIndisponibiliteErreur', namespaces) \
-            or root.find('.//ns1:TechProtocolaireErreur', namespaces)
+                        or root.find('.//ns1:TechDysfonctionnementErreur', namespaces) \
+                        or root.find('.//ns1:TechIndisponibiliteErreur', namespaces) \
+                        or root.find('.//ns1:TechProtocolaireErreur', namespaces)
 
         if error_element is not None:
             code = error_element.find('code').text
@@ -173,3 +186,46 @@ class TipiRegieAcquirer(models.Model):
             raise ValidationError("No result found for transaction with idOp: %s" % idOp)
 
         return data
+
+    @api.multi
+    def _tipiregie_check_web_service(self):
+        self.ensure_one()
+
+        soap_url = self._get_soap_url()
+        soap_body = """
+                    <soapenv:Envelope %s %s>
+                       <soapenv:Header/>
+                       <soapenv:Body>
+                          <pai:recupererDetailClient>
+                             <arg0>
+                                <numCli>%s</numCli>
+                             </arg0>
+                          </pai:recupererDetailClient>
+                       </soapenv:Body>
+                    </soapenv:Envelope>
+                    """ % (
+            'xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"',
+            'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/'
+            'contrat_paiement_securise/PaiementSecuriseService"',
+            self.tipiregie_customer_number
+        )
+
+        try:
+            soap_response = requests.post(soap_url, data=soap_body, headers={'content-type': 'text/xml'})
+            root = ElementTree.fromstring(soap_response.content)
+            fault = root.find('.//S:Fault', {'S': 'http://schemas.xmlsoap.org/soap/envelope/'})
+
+            if fault is not None:
+                error = _("It would appear that the customer number entered is not valid or that the Tipi Régie"
+                          " contract is not properly configured.")
+                error_desc = fault.find('.//descriptif')
+                if error_desc is not None:
+                    error += _("Tipi server returned the following error: \"%s\"") % error_desc.text
+                raise ValidationError(error)
+        except ConnectionError as e:
+            raise ValidationError(_("It seems that the connection to the web service Tipi Régie is impossible.\n"
+                                    "%s\n\n"
+                                    "%s") % (
+                self._get_soap_url(),
+                e.message
+            ))
