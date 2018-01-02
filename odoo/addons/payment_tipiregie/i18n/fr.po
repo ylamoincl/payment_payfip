@@ -6,14 +6,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-20 14:02+0000\n"
-"PO-Revision-Date: 2017-10-20 14:02+0000\n"
+"POT-Creation-Date: 2018-01-02 10:27+0000\n"
+"PO-Revision-Date: 2018-01-02 10:27+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: payment_tipiregie
+#: model:ir.ui.view,arch_db:payment_tipiregie.acquirer_form_tipiregie
+msgid "<span class=\"o_warning_text\">In activation</span>"
+msgstr "<span class=\"o_warning_text\">En activation</span>"
+
+#. module: payment_tipiregie
+#: model:ir.ui.view,arch_db:payment_tipiregie.acquirer_form_tipiregie
+msgid "<span class=\"text-success\">Not in activation</span>"
+msgstr "<span class=\"text-success\">Pas en activation</span>"
 
 #. module: payment_tipiregie
 #: model:payment.acquirer,cancel_msg:payment_tipiregie.payment_acquirer_tipiregie
@@ -36,6 +46,11 @@ msgid "<span><i>Pending,</i> Your online payment has been successfully processed
 msgstr "<span><i>En cours,</i> votre paiement en ligne a été enregistré. Mais votre commande n'est pas encore validée.</span>"
 
 #. module: payment_tipiregie
+#: model:ir.model.fields,field_description:payment_tipiregie.field_payment_acquirer_tipiregie_activation_mode
+msgid "Activation mode"
+msgstr "Mode activation"
+
+#. module: payment_tipiregie
 #: model:ir.model.fields,field_description:payment_tipiregie.field_payment_acquirer_tipiregie_customer_number
 msgid "Customer number"
 msgstr "Numéro client"
@@ -46,7 +61,7 @@ msgid "Form action URL"
 msgstr "URL de renvoi du formulaire"
 
 #. module: payment_tipiregie
-#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:226
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:242
 #, python-format
 msgid "It seems that the connection to the web service Tipi Régie is impossible.\n"
 "%s\n"
@@ -58,7 +73,7 @@ msgstr "Il semblerait que la connection vers le web service Tipi Régie soit imp
 "%s"
 
 #. module: payment_tipiregie
-#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:219
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:235
 #, python-format
 msgid "It would appear that the customer number entered is not valid or that the Tipi Régie contract is not properly configured."
 msgstr "Il semblerait que le numéro client n'est pas valide ou que le contrat Tipi Régie n'est pas correctement configuré."
@@ -85,10 +100,16 @@ msgid "Tipi Régie"
 msgstr "Tipi Régie"
 
 #. module: payment_tipiregie
-#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:223
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:239
 #, python-format
 msgid "Tipi server returned the following error: \"%s\""
 msgstr "Le serveur a retourné l'erreur suivante : \"%s\""
+
+#. module: payment_tipiregie
+#: code:addons/payment_tipiregie/models/inherited_payment_acquirer.py:50
+#, python-format
+msgid "TipiRégie: activation mode can be activate in test environment only and if the payment acquirer is published on the website."
+msgstr "TipiRégie : l'activation ne peut être activée qu'en environement de test et si l'intermédiaire de paiement est publié sur le site web."
 
 #. module: payment_tipiregie
 #: model:payment.acquirer,pre_msg:payment_tipiregie.payment_acquirer_tipiregie

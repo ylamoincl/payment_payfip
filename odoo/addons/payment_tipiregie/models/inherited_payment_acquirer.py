@@ -21,6 +21,7 @@ class TipiRegieAcquirer(models.Model):
 
     tipiregie_customer_number = fields.Char(string='Customer number', required_if_provider='tipiregie')
     tipiregie_form_action_url = fields.Char(string='Form action URL', required_if_provider='tipiregie')
+    tipiregie_activation_mode = fields.Boolean(string='Activation mode', default=False)
 
     @api.constrains('tipiregie_customer_number')
     def _check_tipiregie_customer_number(self):
@@ -28,11 +29,26 @@ class TipiRegieAcquirer(models.Model):
         if self.provider == 'tipiregie' and self.tipiregie_customer_number != 'dummy':
             self._tipiregie_check_web_service()
 
+    @api.constrains('environment')
+    def _check_environment(self):
+        self.ensure_one()
+        if self.provider == 'tipiregie' and self.environment != 'test':
+            self.tipiregie_activation_mode = False
+
     @api.constrains('website_published')
     def _check_website_published(self):
         self.ensure_one()
         if self.provider == 'tipiregie' and self.website_published:
             self._tipiregie_check_web_service()
+            self.tipiregie_activation_mode = False
+
+    @api.constrains('tipiregie_activation_mode')
+    def _check_tipiregie_activation_mode(self):
+        self.ensure_one()
+        if self.provider == 'tipiregie' and self.tipiregie_activation_mode and (
+                not self.website_published or self.environment not in ['test']):
+            raise ValidationError(_("TipiRégie: activation mode can be activate in test environment only and if "
+                                    "the payment acquirer is published on the website."))
 
     @api.model
     def _get_soap_url(self):
@@ -96,7 +112,7 @@ class TipiRegieAcquirer(models.Model):
         numcli = self.tipiregie_customer_number
         objet = values.get('reference').replace('/', ' ')
         refdet = '%.15d' % int(uuid.uuid4().int % 899999999999999)
-        saisie = 'T' if mode == 'TEST' else 'W'
+        saisie = 'X' if self.tipiregie_activation_mode else ('T' if mode == 'TEST' else 'W')
         urlnotif = '%s' % urlparse.urljoin(base_url, TipiRegieController._notify_url)
         urlredirect = '%s' % urlparse.urljoin(base_url, TipiRegieController._return_url)
 
@@ -226,6 +242,12 @@ class TipiRegieAcquirer(models.Model):
             raise ValidationError(_("It seems that the connection to the web service Tipi Régie is impossible.\n"
                                     "%s\n\n"
                                     "%s") % (
-                self._get_soap_url(),
-                e.message
-            ))
+                                      self._get_soap_url(),
+                                      e.message
+                                  ))
+
+    @api.multi
+    def toggle_tipiregie_activation_mode_value(self):
+        in_activation = self.filtered(lambda acquirer: acquirer.tipiregie_activation_mode)
+        in_activation.write({'tipiregie_activation_mode': False})
+        (self-in_activation).write({'tipiregie_activation_mode': True})
