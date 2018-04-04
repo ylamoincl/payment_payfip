@@ -22,6 +22,11 @@ class TipiRegieAcquirer(models.Model):
     tipiregie_customer_number = fields.Char(string='Customer number', required_if_provider='tipiregie')
     tipiregie_form_action_url = fields.Char(string='Form action URL', required_if_provider='tipiregie')
     tipiregie_activation_mode = fields.Boolean(string='Activation mode', default=False)
+    tipiregie_return_payment_url_confirm = fields.Char(
+        string='Payment Return URL Confirm',
+        default='/shop/confirmation'
+    )
+    tipiregie_return_payment_url_cancel = fields.Char(string='Payment Return URL Cancel', default='/shop/payment')
 
     @api.constrains('tipiregie_customer_number')
     def _check_tipiregie_customer_number(self):
@@ -105,7 +110,6 @@ class TipiRegieAcquirer(models.Model):
 
         values = dict((k, v) for k, v in values.items() if v)
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
-
         exer = fields.Datetime.now()[:4]
         mel = values.get('billing_partner_email', '')
         montant = int(values['amount'] * 100)

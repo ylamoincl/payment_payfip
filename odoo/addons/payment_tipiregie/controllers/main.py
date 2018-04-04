@@ -33,7 +33,10 @@ class TipiRegieController(http.Controller):
         _logger.debug('Beginning Tipi Regie DPN form_feedback with post data %s', pprint.pformat(post))
         self.tipiregie_validate_data(**post)
         base_url = http.request.env['ir.config_parameter'].get_param('web.base.url')
-        return werkzeug.utils.redirect('%s' % urlparse.urljoin(base_url, '/shop/confirmation'))
+        return_url = request.env['payment.acquirer'].search(
+            [('provider', '=', 'tipiregie')]).tipiregie_return_payment_url_confirm
+
+        return werkzeug.utils.redirect('%s' % urlparse.urljoin(base_url, return_url))
 
     @http.route('/payment/tipiregie/cancel', type='http', auth="none", csrf=False)
     def tipiregie_cancel(self, **post):
@@ -41,7 +44,9 @@ class TipiRegieController(http.Controller):
         _logger.debug('Beginning Tipi Regie cancel with post data %s', pprint.pformat(post))
         self.tipiregie_validate_data(**post)
         base_url = http.request.env['ir.config_parameter'].get_param('web.base.url')
-        return werkzeug.utils.redirect('%s' % urlparse.urljoin(base_url, '/shop/payment'))
+        return_url = request.env['payment.acquirer'].search(
+            [('provider', '=', 'tipiregie')]).tipiregie_return_payment_url_cancel
+        return werkzeug.utils.redirect('%s' % urlparse.urljoin(base_url, return_url))
 
     def tipiregie_validate_data(self, **post):
         """Check data returned from Tipi Regie."""
