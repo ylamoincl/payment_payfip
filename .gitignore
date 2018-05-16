@@ -1,0 +1,3 @@
+*.pyc
+.eggs/
+odoo10_addon_payment_tipiregie.egg-info/
