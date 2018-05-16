@@ -92,7 +92,8 @@ class TipiRegieAcquirer(models.Model):
         self.ensure_one()
 
         tipiregie_tx_values = dict((k, v) for k, v in values.items() if v)
-        idop = self.tipiregie_get_id_op_from_web_service(tipiregie_tx_values)
+        idop = self.tipiregie_get_id_op_from_web_service(tipiregie_tx_values) if tipiregie_tx_values.get(
+            'reference') != '/' else ''
 
         tipiregie_tx_values.update({
             'idop': idop
@@ -114,7 +115,7 @@ class TipiRegieAcquirer(models.Model):
         mel = values.get('billing_partner_email', '')
         montant = int(values['amount'] * 100)
         numcli = self.tipiregie_customer_number
-        objet = values.get('reference').replace('/', ' ')
+        objet = values.get('reference').replace('/', '  slash  ')
         refdet = '%.15d' % int(uuid.uuid4().int % 899999999999999)
         saisie = 'X' if self.tipiregie_activation_mode else ('T' if mode == 'TEST' else 'W')
         urlnotif = '%s' % urlparse.urljoin(base_url, TipiRegieController._notify_url)
@@ -254,4 +255,4 @@ class TipiRegieAcquirer(models.Model):
     def toggle_tipiregie_activation_mode_value(self):
         in_activation = self.filtered(lambda acquirer: acquirer.tipiregie_activation_mode)
         in_activation.write({'tipiregie_activation_mode': False})
-        (self-in_activation).write({'tipiregie_activation_mode': True})
+        (self - in_activation).write({'tipiregie_activation_mode': True})

@@ -16,7 +16,7 @@ class TipiRegieTransaction(models.Model):
 
     @api.model
     def _tipiregie_form_get_tx_from_data(self, data):
-        reference = data.get('objet')
+        reference = data.get('objet').replace('  slash  ', '/')
         if not reference:
             error_msg = _('Tipi Regie: received data with missing reference (%s)') % reference
             _logger.info(error_msg)
