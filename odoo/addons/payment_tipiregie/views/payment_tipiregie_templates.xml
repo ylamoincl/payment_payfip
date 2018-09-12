@@ -4,7 +4,9 @@
     <template id="tipiregie_acquirer_button">
         <form t-if="acquirer.tipiregie_customer_number" t-att-action="tx_url" method="get" target="_self">
             <!-- idOp -->
-            <input type="hidden" name="idop" t-att-value="idop"/>
+            <input type="hidden" name="reference" t-att-value="reference"/>
+            <input type="hidden" name="amount" t-att-value="amount"/>
+            <input type="hidden" name="return_url" t-att-value="return_url"/>
 
             <!-- submit -->
             <button type="submit" width="100px" t-att-class="submit_class">

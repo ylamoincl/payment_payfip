@@ -8,7 +8,6 @@ import requests
 from requests.exceptions import ConnectionError
 from xml.etree import ElementTree
 import urlparse
-import uuid
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -22,11 +21,6 @@ class TipiRegieAcquirer(models.Model):
     tipiregie_customer_number = fields.Char(string='Customer number', required_if_provider='tipiregie')
     tipiregie_form_action_url = fields.Char(string='Form action URL', required_if_provider='tipiregie')
     tipiregie_activation_mode = fields.Boolean(string='Activation mode', default=False)
-    tipiregie_return_payment_url_confirm = fields.Char(
-        string='Payment Return URL Confirm',
-        default='/shop/confirmation'
-    )
-    tipiregie_return_payment_url_cancel = fields.Char(string='Payment Return URL Cancel', default='/shop/payment')
 
     @api.constrains('tipiregie_customer_number')
     def _check_tipiregie_customer_number(self):
@@ -85,41 +79,22 @@ class TipiRegieAcquirer(models.Model):
     @api.multi
     def tipiregie_get_form_action_url(self):
         self.ensure_one()
-        return self.tipiregie_form_action_url
+        return '/payment/tipiregie/pay'
 
     @api.multi
-    def tipiregie_form_generate_values(self, values):
-        self.ensure_one()
-
-        tipiregie_tx_values = dict((k, v) for k, v in values.items() if v)
-        idop = self.tipiregie_get_id_op_from_web_service(tipiregie_tx_values) if tipiregie_tx_values.get(
-            'reference') != '/' else ''
-
-        tipiregie_tx_values.update({
-            'idop': idop
-        })
-
-        return tipiregie_tx_values
-
-    @api.multi
-    def tipiregie_get_id_op_from_web_service(self, values):
+    def tipiregie_get_id_op_from_web_service(self, email, price, object, acquirer_reference):
         self.ensure_one()
 
         mode = 'TEST'
         if self.environment == 'prod':
             mode = 'PRODUCTION'
 
-        values = dict((k, v) for k, v in values.items() if v)
         base_url = self.env['ir.config_parameter'].get_param('web.base.url')
         exer = fields.Datetime.now()[:4]
-        mel = values.get('billing_partner_email', '')
-        montant = int(values['amount'] * 100)
         numcli = self.tipiregie_customer_number
-        objet = values.get('reference').replace('/', '  slash  ')
-        refdet = '%.15d' % int(uuid.uuid4().int % 899999999999999)
         saisie = 'X' if self.tipiregie_activation_mode else ('T' if mode == 'TEST' else 'W')
-        urlnotif = '%s' % urlparse.urljoin(base_url, TipiRegieController._notify_url)
-        urlredirect = '%s' % urlparse.urljoin(base_url, TipiRegieController._return_url)
+        urlnotif = '%s' % urlparse.urljoin(base_url, '/payment/tipiregie/ipn')
+        urlredirect = '%s' % urlparse.urljoin(base_url, '/payment/tipiregie/dpn')
 
         soap_body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
                     'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/' \
@@ -142,7 +117,7 @@ class TipiRegieAcquirer(models.Model):
                     </pai:creerPaiementSecurise>
                 </soapenv:Body>
             </soapenv:Envelope>
-            """ % (exer, mel, montant, numcli, objet, refdet, saisie, urlnotif, urlredirect)
+            """ % (exer, email, price, numcli, object, acquirer_reference, saisie, urlnotif, urlredirect)
 
         response = requests.post(self._get_soap_url(), data=soap_body, headers={'content-type': 'text/xml'})
         root = ElementTree.fromstring(response.content)

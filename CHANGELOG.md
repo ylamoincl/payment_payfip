@@ -6,7 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- Add dynamically return url
+
+## [10.0.1.2.0] - 2018-09-12
+### Added
+- Rework operation identifier recovery from TipiRegie webservice and set it functional with website_sale and website_payment modules.
 
 ## [10.0.1.1.1] - 2018-05-16
 ### Added
@@ -34,4 +37,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.0.2]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.0.1...10.0.1.0.2
 [10.0.1.1.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.0.2...10.0.1.1.0
 [10.0.1.1.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.0...10.0.1.1.1
-[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.1...HEAD
+[10.0.1.2.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.1...10.0.1.2.0
+[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...HEAD

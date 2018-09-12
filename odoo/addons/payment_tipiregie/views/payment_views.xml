@@ -29,12 +29,22 @@
                     </div>
                 </button>
             </xpath>
-            <group name="acquirer_config" position="inside">
-                <field name="tipiregie_return_payment_url_confirm"
-                       attrs="{'invisible': [('provider', '!=', 'tipiregie')]}"/>
-                <field name="tipiregie_return_payment_url_cancel"
-                       attrs="{'invisible': [('provider', '!=', 'tipiregie')]}"/>
-            </group>
+        </field>
+    </record>
+
+    <record id="transaction_form_tipiregie" model="ir.ui.view">
+        <field name="name">Add operation identifier from TipiRegie acquirer</field>
+        <field name="model">payment.transaction</field>
+        <field name="inherit_id" ref="payment.transaction_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//notebook' position='inside'>
+                <page string="TipiRégie TX Details">
+                    <group>
+                        <field name="tipiregie_operation_identifier"/>
+                        <field name="tipiregie_return_url" invisible="1"/>
+                    </group>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>
