@@ -45,6 +45,10 @@ class TipiRegieTransaction(models.Model):
     def _tipiregie_form_validate(self, idop):
         self.ensure_one()
 
+        # If transaction is already done, we don't try to validate again.
+        if self.state in ['done']:
+            return True
+
         if not idop:
             error_msg = _('Tipi Regie: received data with missing idop!')
             _logger.error(error_msg)

@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+- If transaction is already done, we don't try to validate again.
 
 ## [10.0.1.2.0] - 2018-09-12
 ### Added
