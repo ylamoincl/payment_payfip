@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [10.0.1.2.1] - 2018-12-03
+### Added
 - If transaction is already done, we don't try to validate again.
 
 ## [10.0.1.2.0] - 2018-09-12
@@ -39,4 +42,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.1.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.0.2...10.0.1.1.0
 [10.0.1.1.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.0...10.0.1.1.1
 [10.0.1.2.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.1...10.0.1.2.0
-[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...HEAD
+[10.0.1.2.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...10.0.1.2.1
+[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...HEAD
