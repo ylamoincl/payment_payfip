@@ -2,9 +2,6 @@
 
 from odoo import api, SUPERUSER_ID
 
-from odoo.addons.aquagliss_website_sale.models.aquagliss_transaction import TRANSACTION_TYPES, \
-    TRANSACTION_TYPE_UNITARY, TRANSACTION_TYPE_RELOAD
-
 __name__ = 'Update operation identifier'
 
 
@@ -26,7 +23,7 @@ def migrate(cr, version):
                 tx.write({
                     'tipiregie_operation_identifier': tx.acquirer_reference,
                     'acquirer_reference': ''
-                 })
+                })
 
             if tx.acquirer_id.tipiregie_customer_number != 'dummy' \
                     and tx.tipiregie_operation_identifier \
