@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [10.0.1.2.2] - 2018-12-26
+### Added
+- Delete useless dependency
+
 ## [10.0.1.2.1] - 2018-12-03
 ### Added
 - If transaction is already done, we don't try to validate again.
