@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, models, fields, _
+from odoo.tools import float_round
 
 from odoo.addons.payment.models.payment_acquirer import ValidationError
 
@@ -90,12 +91,12 @@ class TipiRegieTransaction(models.Model):
             })
             return False
 
-
     @api.multi
     def tipiregie_generate_operation(self):
+        prec = self.env['decimal.precision'].precision_get('Product Price')
         for tx in self:
             email = tx.partner_id.email
-            price = int(tx.amount * 100)
+            price = int(float_round(tx.amount * 100.0, prec))
             object = tx.reference.replace('/', '  slash  ')
             acquirer_reference = tx.acquirer_reference or '%.15d' % int(uuid.uuid4().int % 899999999999999)
             try:

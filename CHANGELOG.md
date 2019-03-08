@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [10.0.1.2.3] - 2018-03-08
+### Added
+- Change amount calculation to avoid rounding issues
+
 ## [10.0.1.2.2] - 2018-12-26
 ### Added
 - Delete useless dependency
