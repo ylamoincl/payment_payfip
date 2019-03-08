@@ -50,5 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.1.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.0.2...10.0.1.1.0
 [10.0.1.1.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.0...10.0.1.1.1
 [10.0.1.2.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.1.1...10.0.1.2.0
-[10.0.1.2.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...10.0.1.2.1
+[10.0.1.2.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...10.0.1.2.1
+[10.0.1.2.2]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...10.0.1.2.2
+[10.0.1.2.3]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.2...10.0.1.2.3
 [Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...HEAD
