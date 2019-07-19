@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [10.0.1.3.0] - 2019-07-19
+### Added
 - Add progression information on migration script
+- Add cron to check all draft tipiregie transactions
+- Add email to notify company about the result of cron update, deactivate by default
 
 ## [10.0.1.2.3] - 2018-03-08
 ### Added
@@ -54,4 +59,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.2.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.0...10.0.1.2.1
 [10.0.1.2.2]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...10.0.1.2.2
 [10.0.1.2.3]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.2...10.0.1.2.3
-[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...HEAD
+[10.0.1.3.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.3...10.0.1.3.0
+[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.0...dev
