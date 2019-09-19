@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import uuid
 from datetime import datetime, timedelta
+import logging
+import pytz
+import uuid
 
 from odoo import api, fields, models, _
 from odoo.tools import float_round
@@ -115,9 +116,26 @@ class TipiRegieTransaction(models.Model):
         if result in ['P', 'V']:
             message = 'Validated Tipi Regie payment for tx %s: set as done' % self.reference
             _logger.info(message)
+
+            date_validate = fields.Datetime.now()
+            tipiregie_date = str(data.get('dattrans', ''))
+            tipiregie_datetime = str(data.get('heurtrans', ''))
+            if tipiregie_date and tipiregie_datetime and len(tipiregie_date) == 8 and len(tipiregie_datetime) == 4:
+                # Add a minute to validation datetime cause we don't get seconds from webservice and don't want to be
+                # in trouble with creation datetime
+                day = int(tipiregie_date[0:2])
+                month = int(tipiregie_date[2:4])
+                year = int(tipiregie_date[4:8])
+                hour = int(tipiregie_datetime[0:2])
+                minute = int(tipiregie_datetime[2:4]) + 1
+                tipiregie_tz = pytz.timezone('Europe/Paris')
+                date_validate = fields.Datetime.to_string(
+                    datetime(year, month, day, hour=hour, minute=minute, tzinfo=tipiregie_tz)
+                )
+
             self.write({
                 'state': 'done',
-                'date_validate': fields.Datetime.now()
+                'date_validate': date_validate,
             })
             return True
         elif result in ['A']:
