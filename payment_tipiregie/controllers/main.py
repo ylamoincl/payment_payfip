@@ -20,8 +20,17 @@ class TipiRegieController(http.Controller):
         return_url = post.pop('return_url', '/')
         tx = request.env['payment.transaction'].sudo().search([('reference', '=', reference), ('amount', '=', amount)])
         if tx and tx.acquirer_id.provider == 'tipiregie':
-            tx.tipiregie_generate_operation()
-            tx.write({'tipiregie_return_url': return_url})
+            # TipiRégie doesn't accept two attempts with the same operation identifier, we check if transaction has
+            # already sent and recreate it in this case.
+            if tx.tipiregie_sent_to_webservice:
+                tx = tx.copy({
+                    'reference': request.env['payment.transaction'].get_next_reference(tx.reference),
+                })
+
+            tx.write({
+                'tipiregie_return_url': return_url,
+                'tipiregie_sent_to_webservice': True,
+            })
             return werkzeug.utils.redirect('{url}?idop={idop}'.format(
                 url=tx.acquirer_id.tipiregie_form_action_url,
                 idop=tx.tipiregie_operation_identifier,

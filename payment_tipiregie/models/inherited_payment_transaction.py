@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import logging
-import uuid
 from datetime import datetime, timedelta
+import logging
+import pytz
+import uuid
 
 from odoo import api, fields, models, _
 from odoo.tools import float_round
@@ -23,11 +24,16 @@ class TipiRegieTransaction(models.Model):
     # region Fields declaration
     tipiregie_operation_identifier = fields.Char(
         string='Operation identifier',
-        help='Reference of the request of TX as stored in the acquirer database'
+        help='Reference of the request of TX as stored in the acquirer database',
     )
 
     tipiregie_return_url = fields.Char(
         string='Return URL',
+    )
+
+    tipiregie_sent_to_webservice = fields.Boolean(
+        string="Sent to tipiregie webservice",
+        default=False,
     )
 
     # endregion
@@ -39,6 +45,21 @@ class TipiRegieTransaction(models.Model):
     # endregion
 
     # region CRUD (overrides)
+    @api.model
+    def create(self, vals):
+        res = super(TipiRegieTransaction, self).create(vals)
+        if res.acquirer_id.provider == 'tipiregie':
+            prec = self.env['decimal.precision'].precision_get('Product Price')
+            email = res.partner_email
+            amount = int(float_round(res.amount * 100.0, prec))
+            reference = res.reference.replace('/', '  slash  ')
+            acquirer_reference = '%.15d' % int(uuid.uuid4().int % 899999999999999)
+            res.acquirer_reference = acquirer_reference
+            idop = res.acquirer_id.tipiregie_get_id_op_from_web_service(email, amount, reference, acquirer_reference)
+            res.tipiregie_operation_identifier = idop
+
+        return res
+
     # endregion
 
     # region Actions
@@ -95,9 +116,26 @@ class TipiRegieTransaction(models.Model):
         if result in ['P', 'V']:
             message = 'Validated Tipi Regie payment for tx %s: set as done' % self.reference
             _logger.info(message)
+
+            date_validate = fields.Datetime.now()
+            tipiregie_date = str(data.get('dattrans', ''))
+            tipiregie_datetime = str(data.get('heurtrans', ''))
+            if tipiregie_date and tipiregie_datetime and len(tipiregie_date) == 8 and len(tipiregie_datetime) == 4:
+                # Add a minute to validation datetime cause we don't get seconds from webservice and don't want to be
+                # in trouble with creation datetime
+                day = int(tipiregie_date[0:2])
+                month = int(tipiregie_date[2:4])
+                year = int(tipiregie_date[4:8])
+                hour = int(tipiregie_datetime[0:2])
+                minute = int(tipiregie_datetime[2:4]) + 1
+                tipiregie_tz = pytz.timezone('Europe/Paris')
+                date_validate = fields.Datetime.to_string(
+                    datetime(year, month, day, hour=hour, minute=minute, tzinfo=tipiregie_tz)
+                )
+
             self.write({
                 'state': 'done',
-                'date_validate': fields.Datetime.now()
+                'date_validate': date_validate,
             })
             return True
         elif result in ['A']:
@@ -126,23 +164,6 @@ class TipiRegieTransaction(models.Model):
                 'state_message': message,
             })
             return False
-
-    @api.multi
-    def tipiregie_generate_operation(self):
-        prec = self.env['decimal.precision'].precision_get('Product Price')
-        for tx in self:
-            email = tx.partner_id.email
-            price = int(float_round(tx.amount * 100.0, prec))
-            object = tx.reference.replace('/', '  slash  ')
-            acquirer_reference = tx.acquirer_reference or '%.15d' % int(uuid.uuid4().int % 899999999999999)
-            idop = tx.acquirer_id.tipiregie_get_id_op_from_web_service(email, price, object, acquirer_reference)
-
-            tx.write({
-                'acquirer_reference': acquirer_reference,
-                'tipiregie_operation_identifier': idop,
-            })
-
-        return
 
     @api.model
     def tipiregie_cron_check_draft_payment_transactions(self, options={}):

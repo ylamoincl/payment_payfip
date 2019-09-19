@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 
+## [10.0.1.3.1] - 2019-09-19
+### Added
+ - [Fix] Check if payment transaction is already sent to TipiRégie webservice and recreate it in this case.
+ - [Fix] Set real validation datetime from TipiRégie webservice information
+
 ## [10.0.1.3.0] - 2019-07-19
 ### Added
 - Add progression information on migration script
@@ -60,4 +65,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.2.2]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.1...10.0.1.2.2
 [10.0.1.2.3]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.2...10.0.1.2.3
 [10.0.1.3.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.3...10.0.1.3.0
-[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.0...dev
+[10.0.1.3.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.0...10.0.1.3.1
+[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.1...dev
