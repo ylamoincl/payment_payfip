@@ -41,6 +41,7 @@
                 <page string="TipiRégie TX Details">
                     <group>
                         <field name="tipiregie_operation_identifier"/>
+                        <field name="tipiregie_sent_to_webservice"/>
                         <field name="tipiregie_return_url" invisible="1"/>
                     </group>
                 </page>
