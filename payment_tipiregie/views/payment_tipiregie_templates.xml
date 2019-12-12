@@ -9,7 +9,7 @@
             <input type="hidden" name="return_url" t-att-value="return_url"/>
 
             <!-- submit -->
-            <button type="submit" width="100px" t-att-class="submit_class">
+            <button type="submit" width="100px" t-att-class="submit_class" onclick="$.blockUI()">
                 <img t-if="not submit_txt" src="/payment_tipiregie/static/src/img/tipiregie_icon.png"/>
                 <span t-if="submit_txt">
                     <t t-esc="submit_txt"/>
