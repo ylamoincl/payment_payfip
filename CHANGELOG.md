@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
+
+## [10.0.1.3.2] - 2019-12-12
+### Added
  - [Imp] Add blockUI on pay button
 
 ## [10.0.1.3.1] - 2019-09-19
@@ -67,4 +70,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 [10.0.1.2.3]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.2...10.0.1.2.3
 [10.0.1.3.0]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.2.3...10.0.1.3.0
 [10.0.1.3.1]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.0...10.0.1.3.1
-[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.1...dev
+[10.0.1.3.2]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.1...10.0.1.3.2
+[Unreleased]: https://github.com/Horanet/payment_tipiregie/compare/10.0.1.3.2...dev
