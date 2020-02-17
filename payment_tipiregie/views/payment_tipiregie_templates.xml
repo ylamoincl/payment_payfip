@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <template id="tipiregie_acquirer_button">
-        <form t-if="acquirer.tipiregie_customer_number" t-att-action="tx_url" method="get" target="_self">
+    <template id="tipiregie_form">
+        <div>
             <!-- idOp -->
+            <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
             <input type="hidden" name="reference" t-att-value="reference"/>
             <input type="hidden" name="amount" t-att-value="amount"/>
             <input type="hidden" name="return_url" t-att-value="return_url"/>
-
-            <!-- submit -->
-            <button type="submit" width="100px" t-att-class="submit_class" onclick="$.blockUI()">
-                <img t-if="not submit_txt" src="/payment_tipiregie/static/src/img/tipiregie_icon.png"/>
-                <span t-if="submit_txt">
-                    <t t-esc="submit_txt"/>
-                    <span class="fa fa-long-arrow-right"/>
-                </span>
-            </button>
-        </form>
+        </div>
     </template>
-
 </odoo>

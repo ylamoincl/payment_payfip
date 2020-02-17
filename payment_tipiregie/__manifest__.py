@@ -30,4 +30,5 @@
     'application': False,
     'auto_install': False,
     'installable': True,
+    'post_init_hook': 'create_missing_journal_for_acquirers',
 }
