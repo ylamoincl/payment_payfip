@@ -32,7 +32,7 @@ class TipiRegieTransaction(models.Model):
     )
 
     tipiregie_sent_to_webservice = fields.Boolean(
-        string="Sent to tipiregie webservice",
+        string="Sent to PayFIP webservice",
         default=False,
     )
 
@@ -69,14 +69,14 @@ class TipiRegieTransaction(models.Model):
     @api.model
     def _tipiregie_form_get_tx_from_data(self, idop):
         if not idop:
-            error_msg = _('Tipi Regie: received data with missing idop!')
+            error_msg = _('PayFIP: received data with missing idop!')
             _logger.error(error_msg)
             raise ValidationError(error_msg)
 
         # find tx -> @TDENOTE use txn_id ?
         txs = self.env['payment.transaction'].sudo().search([('tipiregie_operation_identifier', '=', idop)])
         if not txs or len(txs) > 1:
-            error_msg = 'Tipi Regie: received data for idop %s' % idop
+            error_msg = 'PayFIP: received data for idop %s' % idop
             if not txs:
                 error_msg += '; no order found'
             else:
@@ -94,7 +94,7 @@ class TipiRegieTransaction(models.Model):
             return True
 
         if not idop:
-            error_msg = _('Tipi Regie: received data with missing idop!')
+            error_msg = _('PayFIP: received data with missing idop!')
             _logger.error(error_msg)
             raise ValidationError(error_msg)
 
@@ -114,7 +114,7 @@ class TipiRegieTransaction(models.Model):
             return False
 
         if result in ['P', 'V']:
-            message = 'Validated Tipi Regie payment for tx %s: set as done' % self.reference
+            message = 'Validated PayFIP payment for tx %s: set as done' % self.reference
             _logger.info(message)
 
             date_validate = fields.Datetime.now()
@@ -139,14 +139,14 @@ class TipiRegieTransaction(models.Model):
             })
             return True
         elif result in ['A']:
-            message = 'Received notification for Tipi Regie payment %s: set as canceled' % self.reference
+            message = 'Received notification for PayFIP payment %s: set as canceled' % self.reference
             _logger.info(message)
             self.write({
                 'state': 'cancel',
             })
             return True
         elif result in ['R', 'Z']:
-            message = 'Received notification for Tipi Regie payment %s: set as error' % self.reference
+            message = 'Received notification for PayFIP payment %s: set as error' % self.reference
             _logger.info(message)
             self.write({
                 'state': 'error',
@@ -154,7 +154,7 @@ class TipiRegieTransaction(models.Model):
             })
             return True
         else:
-            message = 'Received unrecognized status for Tipi Regie payment %s: %s, set as error' % (
+            message = 'Received unrecognized status for PayFIP payment %s: %s, set as error' % (
                 self.reference,
                 result
             )
@@ -169,7 +169,7 @@ class TipiRegieTransaction(models.Model):
     def tipiregie_cron_check_draft_payment_transactions(self, options={}):
         """Execute cron task to get all draft payments and check actual state
 
-        Execute cron task to get all draft payments before number of days passed as argument and ask for Tipi Régie
+        Execute cron task to get all draft payments before number of days passed as argument and ask for PayFIP
         web service to know actual state
 
         :param number_of_days: number of days (before today) to get draft transactions

@@ -9,12 +9,12 @@
             <field name="view_template_id" ref="tipiregie_acquirer_button"/>
             <field name="environment">test</field>
             <field name="pre_msg">
-                <![CDATA[<p>You will be redirected to the Tipi website after clicking on the payment button.</p>]]>
+                <![CDATA[<p>You will be redirected to the PayFIP website after clicking on the payment button.</p>]]>
             </field>
             <field name="tipiregie_customer_number">dummy</field>
             <field name="tipiregie_form_action_url">https://www.tipi.budget.gouv.fr/tpa/paiementws.web</field>
             <field name="description" type="html">
-                <p>Tipi Régie est un système de paiement en ligne français proposé pa la Direction générale des Finances
+                <p>PayFIP est un système de paiement en ligne français proposé pa la Direction générale des Finances
                     Publiques. Son but est de faciliter le paiement des services publics locaux.
                 </p>
                 <ul class="list-inline">
