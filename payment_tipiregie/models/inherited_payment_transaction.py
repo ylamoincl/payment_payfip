@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from datetime import datetime, timedelta
 import logging
 import pytz
@@ -204,5 +202,3 @@ class TipiRegieTransaction(models.Model):
             mail_template = self.env.ref('payment_tipiregie.mail_template_draft_payments_recovered')
             mail_template.with_context(transactions=transactions).send_mail(self.env.user.id)
     # endregion
-
-    pass

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import logging
 import requests
-import urlparse
+import urllib.parse
 from requests.exceptions import ConnectionError
 from xml.etree import ElementTree
 
@@ -119,8 +117,8 @@ class TipiRegieAcquirer(models.Model):
         exer = fields.Datetime.now()[:4]
         numcli = self.tipiregie_customer_number
         saisie = 'X' if self.tipiregie_activation_mode else ('T' if mode == 'TEST' else 'W')
-        urlnotif = '%s' % urlparse.urljoin(base_url, '/payment/tipiregie/ipn')
-        urlredirect = '%s' % urlparse.urljoin(base_url, '/payment/tipiregie/dpn')
+        urlnotif = '%s' % urllib.parse.urljoin(base_url, '/payment/tipiregie/ipn')
+        urlredirect = '%s' % urllib.parse.urljoin(base_url, '/payment/tipiregie/dpn')
 
         soap_body = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' \
                     'xmlns:pai="http://securite.service.tpa.cp.finances.gouv.fr/services/mas_securite/' \
@@ -349,4 +347,3 @@ class TipiRegieAcquirer(models.Model):
 
     # endregion
 
-    pass
