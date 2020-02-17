@@ -18,7 +18,7 @@
     'update_xml': [],
     'data': [
         # Views must be before data to avoid loading issues
-        'views/payment_tipiregie_templates.xml',
+        'views/payment_payfip_templates.xml',
         'views/payment_views.xml',
 
         'data/payment_acquirer.xml',

@@ -10,7 +10,7 @@ from odoo.addons.payment.models.payment_acquirer import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class TipiRegieController(http.Controller):
+class PayFIPController(http.Controller):
     @http.route('/payment/tipiregie/pay', type='http', auth='none', methods=['GET', 'POST'], csrf=False)
     def tipiregie_pay(self, **post):
         reference = post.pop('reference', False)

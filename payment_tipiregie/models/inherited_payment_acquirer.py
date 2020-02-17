@@ -11,7 +11,7 @@ from odoo.addons.payment.models.payment_acquirer import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class TipiRegieAcquirer(models.Model):
+class PayFIPAcquirer(models.Model):
     # region Private attributes
     _inherit = 'payment.acquirer'
     # endregion
@@ -20,11 +20,11 @@ class TipiRegieAcquirer(models.Model):
     # endregion
 
     # region Fields declaration
-    provider = fields.Selection(selection_add=[('tipiregie', 'Tipi Régie')])
+    provider = fields.Selection(selection_add=[('tipiregie', "PayFIP")])
 
-    tipiregie_customer_number = fields.Char(string='Customer number', required_if_provider='tipiregie')
-    tipiregie_form_action_url = fields.Char(string='Form action URL', required_if_provider='tipiregie')
-    tipiregie_activation_mode = fields.Boolean(string='Activation mode', default=False)
+    tipiregie_customer_number = fields.Char(string="Customer number", required_if_provider='tipiregie')
+    tipiregie_form_action_url = fields.Char(string="Form action URL", required_if_provider='tipiregie')
+    tipiregie_activation_mode = fields.Boolean(string="Activation mode", default=False)
 
     # endregion
 
@@ -60,7 +60,7 @@ class TipiRegieAcquirer(models.Model):
         self.ensure_one()
         if self.provider == 'tipiregie' and self.tipiregie_activation_mode and (
                 not self.website_published or self.environment not in ['test']):
-            raise ValidationError(_("TipiRégie: activation mode can be activate in test environment only and if "
+            raise ValidationError(_("PayFIP: activation mode can be activate in test environment only and if "
                                     "the payment acquirer is published on the website."))
 
     # endregion
@@ -95,7 +95,7 @@ class TipiRegieAcquirer(models.Model):
             * tokenize: support saving payment data in a payment.tokenize
                         object
         """
-        res = super(TipiRegieAcquirer, self)._get_feature_support()
+        res = super(PayFIPAcquirer, self)._get_feature_support()
         res['authorize'].append('tipiregie')
         return res
 
@@ -277,7 +277,7 @@ class TipiRegieAcquirer(models.Model):
         if fault is not None:
             error_desc = fault.find('.//descriptif')
             if error_desc is not None:
-                error += _("\nTipi server returned the following error: \"%s\"") % error_desc.text
+                error += _("\nPayFIP server returned the following error: \"%s\"") % error_desc.text
             return False, error
 
         return True, ''

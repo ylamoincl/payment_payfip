@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="acquirer_form_tipiregie" model="ir.ui.view">
-        <field name="name">acquirer.form.tipiregie</field>
+        <field name="name">Formulaire de paiement PayFIP</field>
         <field name="model">payment.acquirer</field>
         <field name="inherit_id" ref="payment.acquirer_form"/>
         <field name="arch" type="xml">
@@ -33,13 +33,13 @@
     </record>
 
     <record id="transaction_form_tipiregie" model="ir.ui.view">
-        <field name="name">Add operation identifier from TipiRegie acquirer</field>
+        <field name="name">Add operation identifier from PayFIP acquirer</field>
         <field name="model">payment.transaction</field>
         <field name="inherit_id" ref="payment.transaction_form"/>
         <field name="arch" type="xml">
             <xpath expr='//sheet' position='inside'>
                 <notebook>
-                    <page string="TipiRégie">
+                    <page string="PayFIP">
                         <group>
                             <field name="tipiregie_operation_identifier"/>
                             <field name="tipiregie_sent_to_webservice"/>

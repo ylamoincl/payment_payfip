@@ -3,8 +3,8 @@
     <data noupdate="1">
         <record id="payment_acquirer_tipiregie" model="payment.acquirer">
             <field name="journal_id" eval="False"/>
-            <field name="name">Tipi Régie</field>
-            <field name="image" type="base64" file="payment_tipiregie/static/src/img/tipiregie_icon.png"/>
+            <field name="name">PayFIP</field>
+            <field name="image" type="base64" file="payment_tipiregie/static/src/img/payfip_icon.png"/>
             <field name="provider">tipiregie</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="view_template_id" ref="tipiregie_form"/>

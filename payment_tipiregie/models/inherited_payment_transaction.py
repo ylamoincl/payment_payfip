@@ -11,7 +11,7 @@ from odoo.addons.payment.models.payment_acquirer import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class TipiRegieTransaction(models.Model):
+class PayFIPTransaction(models.Model):
     # region Private attributes
     _inherit = 'payment.transaction'
     # endregion
@@ -45,7 +45,7 @@ class TipiRegieTransaction(models.Model):
     # region CRUD (overrides)
     @api.model
     def create(self, vals):
-        res = super(TipiRegieTransaction, self).create(vals)
+        res = super(PayFIPTransaction, self).create(vals)
         if res.acquirer_id.provider == 'tipiregie':
             prec = self.env['decimal.precision'].precision_get('Product Price')
             email = res.partner_email
