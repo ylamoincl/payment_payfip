@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 {
-    'name': "Intermédiaire de paiement Tipi Régie",
-    'version': '10.0.1.3.2',
-    'summary': """Intermédiaire de paiement : Implémentation de Tipi Régie""",
+    'name': "Intermédiaire de paiement PayFIP",
+    'version': '11.0.1.0.0',
+    'summary': """Intermédiaire de paiement : Implémentation de PayFIP""",
     'description': "no warning",
     'author': "Horanet",
     'website': "http://www.horanet.com/",
@@ -19,7 +18,7 @@
     'update_xml': [],
     'data': [
         # Views must be before data to avoid loading issues
-        'views/payment_tipiregie_templates.xml',
+        'views/payment_payfip_templates.xml',
         'views/payment_views.xml',
 
         'data/payment_acquirer.xml',
@@ -31,4 +30,5 @@
     'application': False,
     'auto_install': False,
     'installable': True,
+    'post_init_hook': 'create_missing_journal_for_acquirers',
 }
