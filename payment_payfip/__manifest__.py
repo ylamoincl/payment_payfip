@@ -31,6 +31,4 @@
     'application': False,
     'auto_install': False,
     'installable': True,
-    'pre_init_hook': 'migrate_tipiregie_to_payfip',
-    'post_init_hook': 'post_init_hook',
 }
