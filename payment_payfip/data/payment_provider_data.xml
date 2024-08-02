@@ -6,7 +6,7 @@
             <field name="code">payfip</field>
             <field name="display_as">Payfip</field>
             <field name="module_id" ref="base.module_payment_payfip"/>
-            <field name="image_128" type="base64" file="payment_payfip/static/description/icon.jpg"/>
+            <field name="image_128" type="base64" file="payment_payfip/static/img/payfip_logo.jpg"/>
             <field name="pre_msg">
                 <![CDATA[<p>You will be redirected to the PayFIP website after clicking on the payment button.</p>]]>
             </field>
