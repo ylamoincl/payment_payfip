@@ -252,7 +252,7 @@ msgstr ""
 #. module: payment_payfip
 #: model_terms:payment.provider,done_msg:payment_payfip.payment_provider_payfip
 msgid "Your payment has been successfully processed. Thank you!"
-msgstr "Votre paiement a été traité avec succès. Merci!"
+msgstr "Votre paiement a été traité avec succès. Merci !"
 
 #. module: payment_payfip
 #. odoo-python
