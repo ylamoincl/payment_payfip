@@ -174,7 +174,7 @@ msgstr "Transaction"
 #. module: payment_payfip
 #: model:ir.model.fields,help:payment_payfip.field_payment_transaction__payfip_operation_identifier
 msgid "Reference of the request of TX as stored in the acquirer database"
-msgstr ""
+msgstr "Référence de la demande de transaction telle que stockée dans la base de donnée de l'acquéreur."
 
 #. module: payment_payfip
 #: model:ir.model.fields,field_description:payment_payfip.field_payment_provider__reject_msg
