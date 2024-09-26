@@ -142,7 +142,7 @@ msgstr "État PayFIP"
 #: model:mail.template,name:payment_payfip.mail_template_draft_payments_recovered
 #: model:mail.template,subject:payment_payfip.mail_template_draft_payments_recovered
 msgid "PayFIP: Draft payments recovered"
-msgstr ""
+msgstr "PayFIP : Paiements en brouillons réévalués"
 
 #. module: payment_payfip
 #. odoo-python
